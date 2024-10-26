@@ -2,16 +2,15 @@
 
 import { useState } from "react";
 
-function Square({value, onSquareClick}) {
+function Square({value, onSquareClick, highlight}) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={highlight} onClick={onSquareClick}>
       {value}
     </button>
   );
 }
 
 function Board({ xIsNext, squares, onPlay, currentMove}) {
-  console.log(currentMove);
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
@@ -40,19 +39,19 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
     <>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} highlight={"square"} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} highlight={"square"}/>
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} highlight={"square"}/>
       </div>
       <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} highlight={"square"}/>
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} highlight={"square"}/>
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} highlight={"square"}/>
       </div>
       <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} highlight={"square"}/>
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} highlight={"square"}/>
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} highlight={"square"}/>
       </div>
       
     </>
@@ -85,6 +84,8 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  console.log("current mov " + currentMove);
+  console.log(history);
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -98,8 +99,12 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
+    console.log(move);
     if (move > 0) {
       description = "Go to move #" + move;
+      if (move === history.length -1) {
+        return <li key={move}>You are at move # {move}</li>
+      }
     } else {
       description = "Go to game start";
     }

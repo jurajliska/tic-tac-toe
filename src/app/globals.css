@@ -25,6 +25,10 @@ h1{
   width: 34px;
 }
 
+.win{
+  background: greenyellow;
+}
+
 .board-row::after{
   clear: both;
   content: '';
