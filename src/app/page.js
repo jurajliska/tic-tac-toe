@@ -25,33 +25,47 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  function handleHighlight(i){
+    if(winners) {
+      for (let a = 0; a < winners.length; a++){
+        if(winners[a] === i ){
+          return "square win";
+        }
+      }
+      return "square";
+    } else {
+      return "square";
+    }
+  }
+
+  const winners = calculateWinner(squares)
   let status;
-  if (winner) {
-    status = "Winner: " + winner;
+  if (winners) {
+    status = "Winner: " + squares[winners[0]];
   } else if (currentMove === 9){
     status = "Draw!"
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
+
   
   return (
     <>
       <div className="status">{status}</div>
       <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} highlight={"square"} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} highlight={"square"}/>
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} highlight={"square"}/>
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} highlight={handleHighlight(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} highlight={handleHighlight(1)}/>
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} highlight={handleHighlight(2)}/>
       </div>
       <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} highlight={"square"}/>
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} highlight={"square"}/>
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} highlight={"square"}/>
+        <Square value={squares[3]} onSquareClick={() => handleClick(3)} highlight={handleHighlight(3)}/>
+        <Square value={squares[4]} onSquareClick={() => handleClick(4)} highlight={handleHighlight(4)}/>
+        <Square value={squares[5]} onSquareClick={() => handleClick(5)} highlight={handleHighlight(5)}/>
       </div>
       <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} highlight={"square"}/>
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} highlight={"square"}/>
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} highlight={"square"}/>
+        <Square value={squares[6]} onSquareClick={() => handleClick(6)} highlight={handleHighlight(6)}/>
+        <Square value={squares[7]} onSquareClick={() => handleClick(7)} highlight={handleHighlight(7)}/>
+        <Square value={squares[8]} onSquareClick={() => handleClick(8)} highlight={handleHighlight(8)}/>
       </div>
       
     </>
@@ -73,7 +87,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a ,b ,c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
@@ -84,8 +98,6 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
-  console.log("current mov " + currentMove);
-  console.log(history);
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -99,7 +111,6 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
-    console.log(move);
     if (move > 0) {
       description = "Go to move #" + move;
       if (move === history.length -1) {
