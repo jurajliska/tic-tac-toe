@@ -43,16 +43,29 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
   if (winners) {
     status = "Winner: " + squares[winners[0]];
   } else if (currentMove === 9){
-    status = "Draw!"
+    status = "Draw!";
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
 
+  function MakeSquares() {
+    const row = [];
+    for (let i = 0; i < 9; i=i+3) {
+      row.push(
+        <div className="board-row">
+        <Square value={squares[0+i]} onSquareClick={() => handleClick(0+i)} highlight={handleHighlight(0+i)}/>
+        <Square value={squares[1+i]} onSquareClick={() => handleClick(1+i)} highlight={handleHighlight(1+i)}/>
+        <Square value={squares[2+i]} onSquareClick={() => handleClick(2+i)} highlight={handleHighlight(2+i)}/>
+        </div>
+      );
+    }
+    return row;
+  }
   
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
+      {/* <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} highlight={handleHighlight(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} highlight={handleHighlight(1)}/>
         <Square value={squares[2]} onSquareClick={() => handleClick(2)} highlight={handleHighlight(2)}/>
@@ -66,7 +79,9 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} highlight={handleHighlight(6)}/>
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} highlight={handleHighlight(7)}/>
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} highlight={handleHighlight(8)}/>
-      </div>
+      </div> */}
+      
+      <MakeSquares />
       
     </>
   );
