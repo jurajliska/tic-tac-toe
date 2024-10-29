@@ -48,18 +48,15 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
     status = "Next player: " + (xIsNext ? "X" : "O");
   }
 
-  function MakeSquares() {
-    const row = [];
-    for (let i = 0; i < 9; i=i+3) {
-      row.push(
-        <div className="board-row">
+  const makeSquares = [];
+  for (let i = 0; i < 9; i=i+3) {
+    makeSquares.push(
+      <div className="board-row" key={i}>
         <Square value={squares[0+i]} onSquareClick={() => handleClick(0+i)} highlight={handleHighlight(0+i)}/>
         <Square value={squares[1+i]} onSquareClick={() => handleClick(1+i)} highlight={handleHighlight(1+i)}/>
         <Square value={squares[2+i]} onSquareClick={() => handleClick(2+i)} highlight={handleHighlight(2+i)}/>
-        </div>
-      );
-    }
-    return row;
+      </div>
+    );
   }
   
   return (
@@ -80,8 +77,8 @@ function Board({ xIsNext, squares, onPlay, currentMove}) {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} highlight={handleHighlight(7)}/>
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} highlight={handleHighlight(8)}/>
       </div> */}
-      
-      <MakeSquares />
+
+      {makeSquares}
       
     </>
   );
